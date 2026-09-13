@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+ENV/
+env/
+.venv
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Environment
+.env
+.env.local
+
+# Logs
+logs/
+*.log
+
+# Modelos (descargar por separado)
+models/
+piper/
+
+# Datos temporales
+data/*.tmp
+data/*.json
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# Systemd (copias personalizadas)
+/etc/systemd/system/jarvis.service
+
+# Desktop files personalizados
+~/.config/autostart/jarvis.desktop

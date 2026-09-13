@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=JARVIS Assistant
+Comment=Asistente Personal de IA con control por voz
+Exec=/home/REPLACE_WITH_USERNAME/jarvis/venv/bin/python /home/REPLACE_WITH_USERNAME/jarvis/main.py
+Icon=preferences-desktop-speech-recognition
+Terminal=false
+Type=Application
+Categories=Utility;Accessibility;
+StartupNotify=true
+X-GNOME-Autostart-enabled=true
+X-GNOME-Autostart-Delay=10

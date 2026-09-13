@@ -1,0 +1,27 @@
+[Unit]
+Description=JARVIS AI Assistant
+Documentation=https://github.com/jarvis-assistant
+After=network.target pulseaudio.service
+
+[Service]
+Type=simple
+User=%USER%
+Group=%GROUP%
+WorkingDirectory=/home/%USER%/jarvis
+Environment="PATH=/home/%USER%/jarvis/venv/bin"
+ExecStart=/home/%USER%/jarvis/venv/bin/python /home/%USER%/jarvis/main.py --headless
+Restart=on-failure
+RestartSec=10
+
+# Optimización de recursos
+Nice=10
+IOSchedulingClass=idle
+CPUSchedulingPolicy=idle
+
+# Logging
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=jarvis
+
+[Install]
+WantedBy=default.target
