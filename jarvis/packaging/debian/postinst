@@ -1,0 +1,49 @@
+#!/usr/bin/env bash
+# postinst: preparacion del entorno virtual de JARVIS tras instalar el .deb
+set -e
+
+JARVIS_HOME="/opt/jarvis"
+VENV="$JARVIS_HOME/venv"
+
+# 1. Crear entorno virtual e instalar dependencias Python (si es posible)
+if [ ! -d "$VENV" ]; then
+    python3 -m venv "$VENV" || true
+fi
+
+if [ -x "$VENV/bin/pip" ]; then
+    # La instalacion puede fallar sin conexion; no bloquear la instalacion del paquete
+    "$VENV/bin/pip" install --upgrade pip >/dev/null 2>&1 || true
+    "$VENV/bin/pip" install -r "$JARVIS_HOME/requirements.txt" >/dev/null 2>&1 || \
+        echo "AVISO: No se pudieron instalar las dependencias Python automaticamente."
+fi
+
+# 2. Crear archivo de configuracion .env si no existe
+if [ ! -f "$JARVIS_HOME/.env" ] && [ -f "$JARVIS_HOME/.env.example" ]; then
+    cp "$JARVIS_HOME/.env.example" "$JARVIS_HOME/.env"
+fi
+
+mkdir -p "$JARVIS_HOME/logs" "$JARVIS_HOME/models" "$JARVIS_HOME/data"
+
+# 3. Detectar al usuario real y darle permisos + autostart
+REAL_USER="$(stat -c '%U' /home 2>/dev/null | head -1)"
+if [ -d "/home/$REAL_USER" ] && [ "$REAL_USER" != "root" ] && [ "$REAL_USER" != "nobody" ]; then
+    chown -R "$REAL_USER":"$REAL_USER" "$JARVIS_HOME" 2>/dev/null || true
+    # Autostart via .desktop
+    mkdir -p "/home/$REAL_USER/.config/autostart"
+    sed "s|REPLACE_WITH_USERNAME|$REAL_USER|g" /usr/share/applications/jarvis.desktop \
+        > "/home/$REAL_USER/.config/autostart/jarvis.desktop" 2>/dev/null || true
+    chown -R "$REAL_USER":"$REAL_USER" "/home/$REAL_USER/.config/autostart/jarvis.desktop" 2>/dev/null || true
+fi
+
+echo ""
+echo "==============================================================="
+echo " JARVIS instalado correctamente."
+echo "  1. Edita tu API key:   nano $JARVIS_HOME/.env"
+echo "     (OPENROUTER_API_KEY=...)"
+echo "  2. Ejecuta:            jarvis"
+echo "  Si faltan librerias Python, ejecuta:"
+echo "     sudo $VENV/bin/pip install -r $JARVIS_HOME/requirements.txt"
+echo "==============================================================="
+echo ""
+
+exit 0

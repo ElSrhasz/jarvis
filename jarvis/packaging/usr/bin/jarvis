@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# Launcher de JARVIS instalado por el paquete .deb
+set -e
+
+JARVIS_HOME="/opt/jarvis"
+
+if [ -x "$JARVIS_HOME/venv/bin/python" ]; then
+    PYTHON="$JARVIS_HOME/venv/bin/python"
+else
+    PYTHON="$(command -v python3)"
+fi
+
+exec "$PYTHON" "$JARVIS_HOME/main.py" "$@"
