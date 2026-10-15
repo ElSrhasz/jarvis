@@ -1,0 +1,11 @@
+Package: jarvis-assistant
+Version: 1.0.0
+Section: utils
+Priority: optional
+Architecture: all
+Maintainer: JARVIS Dev <dev@jarvis.local>
+Depends: python3 (>= 3.10), python3-venv, python3-pip, python3-tk, portaudio19-dev, libasound2-dev, libpulse-dev, pulseaudio-utils, espeak-ng, ffmpeg, libffi-dev, libssl-dev
+Description: Asistente personal de IA con control por voz para Linux Mint
+ JARVIS es un asistente avanzado inspirado en el de Iron Man, disenado
+ para Linux Mint 22.x (Cinnamon). Ofrece control por voz con palabra de
+ activacion, STT/TTS ligeros y conexion con OpenRouter para razonamiento LLM.
