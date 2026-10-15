@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# prerm: limpieza antes de desinstalar el paquete
+set -e
+
+rm -f "/home/$(stat -c '%U' /home 2>/dev/null | head -1)/.config/autostart/jarvis.desktop" 2>/dev/null || true
+rm -rf /opt/jarvis/venv 2>/dev/null || true
+
+exit 0

@@ -41,3 +41,4 @@ Thumbs.db
 
 # Desktop files personalizados
 ~/.config/autostart/jarvis.desktop
+dist/
